@@ -60,9 +60,10 @@
         });
 
         function CalculateLab(R, G, B){
-            R = R / 255;
-            G = G / 255;
-            B = B / 255;
+            R = R < 3 ? 3 / 255 : R / 255;
+            G = G < 3 ? 3 / 255 : G / 255;
+            B = B < 3 ? 3 / 255 : B / 255;
+           
             let L = Math.log10(0.3811 * R + 0.5783 * G + 0.0402 * B);
             let M = Math.log10(0.1967 * R + 0.7244 * G + 0.0782 * B);
             let S = Math.log10(0.0241 * R + 0.1288 * G + 0.8444 * B);
@@ -80,6 +81,9 @@
             let R = 4.4679 * L_t - 3.5873 * M_t + 0.1193 * S_t;
             let G = -1.2186 * L_t + 2.3809 * M_t - 0.1624 * S_t;
             let B = 0.0497 * L_t - 0.2439 * M_t + 1.2045 * S_t;
+            R = R > 0.92 ? 0.92 : R;
+            G = G > 0.92 ? 0.92 : G;
+            B = B > 0.92 ? 0.92 : B;
             return [R, G, B];
         }
 
@@ -136,7 +140,6 @@
                     pixel.data[0] = parseInt(rgb[0] * 255);
                     pixel.data[1] = parseInt(rgb[1] * 255);
                     pixel.data[2] = parseInt(rgb[2] * 255);
-
                     context2.putImageData(pixel, i, j)
                 }
             }
